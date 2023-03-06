@@ -1,8 +1,16 @@
-response = openai.Image.create(
-  prompt="a white siamese cat",
-  n=1,
-  size="1024x1024"
-)
-image_url = response['data'][0]['url']
+import openai
+import requests
+import json
 
-OPENAI_API_KEY
+def generate_image(prompt):
+    openai.api_key = os.environ["OPENAI_API_KEY"]
+    model = "image-alpha-001"
+    data = json.dumps({
+        "model": model,
+        "prompt": prompt,
+        "num_images": 1,
+        "size": "256x256",
+    })
+    response = requests.post("https://api.openai.com/v1/images/generations", data=data)
+    response_json = json.loads(response.text)
+    return response_json["data"][0]["url"]
