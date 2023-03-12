@@ -1,0 +1,26 @@
+import openai
+import os
+
+# Set up the OpenAI API client
+openai.api_key = os.environ['OPENAI_API_KEY']
+model_engine = "image-alpha-001"
+
+# Define the function to generate an image with DALL-E
+def generate_image(prompt):
+    response = openai.Completion.create(
+        engine=model_engine,
+        prompt=prompt,
+        max_tokens=0,
+        nft_model="image-alpha-001",
+        temperature=0.5,
+        size="256x256"
+    )
+    image_data = response.choices[0].content
+    return image_data
+
+# Call the generate_image function with the item title as the prompt
+item_title = "My new item"
+image_data = generate_image(item_title)
+
+# Save the image data to the appropriate location in your backend
+# (The specific implementation details will depend on your backend setup)
